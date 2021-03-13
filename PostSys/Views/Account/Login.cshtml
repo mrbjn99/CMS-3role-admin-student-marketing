@@ -1,0 +1,136 @@
+﻿@using PostSys.Models
+@model LoginViewModel
+@{
+	ViewBag.Title = "Log in";
+}
+
+@*<!DOCTYPE html>
+	<html>
+	<head>
+		<title>CMS Login</title>
+		<link rel="stylesheet" type="text/css" href="~/LoginDesign/css/style.css">
+		<link href="https://fonts.googleapis.com/css?family=Poppins:600&display=swap" rel="stylesheet">
+		<script src="https://kit.fontawesome.com/a81368914c.js"></script>
+		<meta name="viewport" content="width=device-width, initial-scale=1">
+	</head>
+	<body>
+		<img class="wave" src="~/LoginDesign/img/testimonials-background.jpg">
+		<div class="container">
+			<div class="img">
+				<img src="~/LoginDesign/img/details-1-office-worker.svg">
+			</div>
+			<div class="login-content">
+
+				<section id="loginForm">
+					@using (Html.BeginForm("Login", "Account", new { ReturnUrl = ViewBag.ReturnUrl }, FormMethod.Post, new { @class = "form-horizontal", role = "form" }))
+					{
+						@Html.AntiForgeryToken()
+						<img src="~/LoginDesign/img/team-member-2.svg" style="border-radius: 30%;">
+						<h2 class="title">Login</h2>
+						<div class="input-div one">
+							<div class="i">
+								<i class="fas fa-user"></i>
+							</div>
+
+							<div class="div">
+								<h5>Username</h5>
+								@Html.TextBoxFor(m => m.UserName, new { @class = "input" })
+							</div>
+						</div>
+						<div class="input-div pass">
+							<div class="i">
+								<i class="fas fa-lock"></i>
+							</div>
+							<div class="div">
+								<h5>Password</h5>
+								@Html.PasswordFor(m => m.Password, new { @class = "input" })
+							</div>
+						</div>
+						<input type="submit" value="Log in" class="btn" />
+					}
+				</section>
+
+			</div>
+		</div>
+		<script type="text/javascript" src="~/LoginDesign/js/main.js"></script>
+	</body>
+	</html>*@
+
+
+
+
+
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+	<title>Datta Able Free Bootstrap 4 Admin Template</title>
+	<!-- HTML5 Shim and Respond.js IE10 support of HTML5 elements and media queries -->
+	<!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
+	<!--[if lt IE 10]>
+		<script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
+		<script src="https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>
+		<![endif]-->
+	<!-- Meta -->
+	<meta charset="utf-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=0, minimal-ui">
+	<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+	<meta name="description" content="Datta Able Bootstrap admin template made using Bootstrap 4 and it has huge amount of ready made feature, UI components, pages which completely fulfills any dashboard needs." />
+	<meta name="keywords" content="admin templates, bootstrap admin templates, bootstrap 4, dashboard, dashboard templets, sass admin templets, html admin templates, responsive, bootstrap admin templates free download,premium bootstrap admin templates, datta able, datta able bootstrap admin template, free admin theme, free dashboard template" />
+	<meta name="author" content="CodedThemes" />
+
+	<!-- Favicon  -->
+	<link rel="icon" href="~/images/customer - logo.png">
+	<!-- fontawesome icon -->
+	<link rel="stylesheet" href="~/FrontEnd/assets/fonts/fontawesome/css/fontawesome-all.min.css">
+	<!-- animation css -->
+	<link rel="stylesheet" href="~/FrontEnd/assets/plugins/animation/css/animate.min.css">
+	<!-- vendor css -->
+	<link rel="stylesheet" href="~/FrontEnd/assets/css/style.css">
+
+</head>
+
+<body>
+	@using (Html.BeginForm("Login", "Account", new { ReturnUrl = ViewBag.ReturnUrl }, FormMethod.Post, new { @class = "form-horizontal", role = "form" }))
+	{
+		@Html.AntiForgeryToken()
+		<div class="auth-wrapper">
+			<div class="auth-content">
+				<div class="auth-bg">
+					<span class="r"></span>
+					<span class="r s"></span>
+					<span class="r s"></span>
+					<span class="r"></span>
+				</div>
+				<section id="loginForm">
+
+					<div class="card" style="border-radius: 8%">
+						<div class="card-body text-center">
+							<div class="mb-4">
+								<i class="feather icon-unlock auth-icon"></i>
+							</div>
+							<h3 class="mb-4">Login</h3>
+							<div class="input-group mb-3">
+								@Html.TextBoxFor(m => m.UserName, new { @class = "form-control", @placeholder = "UserName" })
+							</div>
+							<div class="input-group mb-4">
+								@Html.PasswordFor(m => m.Password, new { @class = "form-control", @placeholder = "Password" })
+							</div>
+						
+							<button class="btn btn-primary shadow-2 mb-4">Login</button>
+
+						</div>
+					</div>
+				</section>
+			</div>
+		</div>
+	}
+	<!-- Required Js -->
+	<script src="~/FrontEnd/assets/js/vendor-all.min.js"></script>
+	<script src="~/FrontEnd/assets/plugins/bootstrap/js/bootstrap.min.js"></script>
+
+</body>
+</html>
+@section Scripts {
+	@Scripts.Render("~/bundles/jqueryval")
+}
