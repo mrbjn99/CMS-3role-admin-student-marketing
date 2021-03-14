@@ -1,80 +1,78 @@
-﻿using PostSys.Models;
+﻿using Microsoft.AspNet.Identity;
+using PostSys.Models;
+using PostSys.ViewModels;
 using System;
-using System.Collections.Generic;
+using System.Data.Entity;
 using System.Linq;
 using System.Web;
 using System.Web.Mvc;
-using System.Data.Entity;
-using Microsoft.AspNet.Identity;
-using System.IO;
-using PostSys.ViewModels;
 
 namespace PostSys.Controllers
 {
-	public class AssignmentsController : Controller
-	{
-		private ApplicationDbContext _context;
+    public class AssignmentsController : Controller
+    {
+        private ApplicationDbContext _context;
 
-		public AssignmentsController()
-		{
-			_context = new ApplicationDbContext();
-		}
+        public AssignmentsController()
+        {
+            _context = new ApplicationDbContext();
+        }
 
-		//Manager
-		[Authorize(Roles = "Marketing Manager")]
-		public ActionResult ListAssignment()
-		{
-			var getAssignment = _context.Assignments.Include(c => c.Course).Include(d => d.Deadline).ToList();
-			
-			return View(getAssignment);
-		}
+        //Manager
+        [Authorize(Roles = "Marketing Manager")]
+        public ActionResult ListAssignment()
+        {
+            var getAssignment = _context.Assignments.Include(c => c.Course).Include(d => d.Deadline).ToList();
 
-		[Authorize(Roles = "Marketing Coordinator")]
-		public ActionResult DeleteAssignment(int id)
-		{
-			var assignmentInDb = _context.Assignments.SingleOrDefault(i => i.Id == id);
+            return View(getAssignment);
+        }
 
-			if(assignmentInDb == null)
-			{
-				return View("~/Views/ErrorValidations/Null.cshtml");
-			}
+        [Authorize(Roles = "Marketing Coordinator")]
+        public ActionResult DeleteAssignment(int id)
+        {
+            var assignmentInDb = _context.Assignments.SingleOrDefault(i => i.Id == id);
 
-			_context.Assignments.Remove(assignmentInDb);
-			_context.SaveChanges();
+            if (assignmentInDb == null)
+            {
+                return View("~/Views/ErrorValidations/Null.cshtml");
+            }
 
-			return RedirectToAction("ManageMyAssignment");
-		}
+            _context.Assignments.Remove(assignmentInDb);
+            _context.SaveChanges();
 
-		[Authorize(Roles = "Marketing Coordinator, Student")]
-		public ActionResult ManageMyAssignment()
-		{
-			var getUserName = User.Identity.GetUserName();
+            return RedirectToAction("ManageMyAssignment");
+        }
 
-			var getCourse = _context.Courses.ToList();
-			var getClass = _context.Classes.ToList();
-			var getCoordinator = _context.Users.ToList();
-			var getDeadline = _context.Deadlines.ToList();
+        [Authorize(Roles = "Marketing Coordinator, Student")]
+        public ActionResult ManageMyAssignment()
+        {
+            var getUserName = User.Identity.GetUserName();
 
-			if(User.IsInRole("Marketing Coordinator"))
-			{
-				var getMyAssignmentCoordinator = _context.Assignments.Where(u => u.Course.Class.Coordinator.UserName == getUserName)
-																 .Include(c => c.Course)
-																 .ToList();
-				return View(getMyAssignmentCoordinator);
-			}
+            var getCourse = _context.Courses.ToList();
+            var getClass = _context.Classes.ToList();
+            var getCoordinator = _context.Users.ToList();
+            var getDeadline = _context.Deadlines.ToList();
 
-			if (User.IsInRole("Student"))
-			{
-				var getMyAssignmentStudent = _context.Assignments.Where(u => u.Course.Student.UserName == getUserName)
-																	 .Include(c => c.Course)
-																	 .ToList();
-				return View(getMyAssignmentStudent);
-			}
+            if (User.IsInRole("Marketing Coordinator"))
+            {
+                var getMyAssignmentCoordinator = _context.Assignments.Where(u => u.Course.Class.Coordinator.UserName == getUserName)
+                                                                 .Include(c => c.Course)
+                                                                 .ToList();
+                return View(getMyAssignmentCoordinator);
+            }
 
-			return View();
-		}
+            if (User.IsInRole("Student"))
+            {
+                var getMyAssignmentStudent = _context.Assignments.Where(u => u.Course.Student.UserName == getUserName)
+                                                                     .Include(c => c.Course)
+                                                                     .ToList();
+                return View(getMyAssignmentStudent);
+            }
 
-		private bool ValidateExtension(string extension)
+            return View();
+        }
+
+        /*private bool ValidateExtension(string extension)
 		{
 			extension = extension.ToLower();
 			switch (extension)
@@ -92,61 +90,55 @@ namespace PostSys.Controllers
 				default:
 					return false;
 			}
-		}
+		}*/
 
-		[Authorize(Roles = "Student")]
-		[HttpGet]
-		public ActionResult SubmitPost(int id)
-		{
-			var assignemntInDb = _context.Assignments.SingleOrDefault(i => i.Id == id);
+        [Authorize(Roles = "Student")]
+        [HttpGet]
+        public ActionResult SubmitPost(int id)
+        {
+            var assignemntInDb = _context.Assignments.SingleOrDefault(i => i.Id == id);
 
-			////////check validation: Deadline currentdate > EndDate
-			//Find Enddate in currentDeadline
-			int status = 1; // st=1 => can submit /// st=0 => can't submit
-			var endDateList = (from ass in _context.Assignments
-							   where ass.Id == id
-							   join d in _context.Deadlines
-							   on ass.DeadlineId equals d.Id
-							   select d.EndDate).ToList();
-			var endDate = endDateList[0];
+            ////////check validation: Deadline currentdate > EndDate
+            //Find Enddate in currentDeadline
+            int status = 1; // st=1 => can submit /// st=0 => can't submit
+            var endDateList = (from ass in _context.Assignments
+                               where ass.Id == id
+                               join d in _context.Deadlines
+                               on ass.DeadlineId equals d.Id
+                               select d.EndDate).ToList();
+            var endDate = endDateList[0];
 
-			//check deadline
-			if (DateTime.Now > endDate) //error
-			{
-				status = 0;
-			}
+            //check deadline
+            if (DateTime.Now > endDate) //error
+            {
+                status = 0;
+            }
 
-			//
-			var newPostAssignmentViewModel = new PostAssignmentViewModel
-			{
-				Assignment = assignemntInDb,
-				StatusPost = status
-			};
+            //
+            var newPostAssignmentViewModel = new PostAssignmentViewModel
+            {
+                Assignment = assignemntInDb,
+                StatusPost = status
+            };
 
-			return View(newPostAssignmentViewModel);
-		}
+            return View(newPostAssignmentViewModel);
+        }
 
-		[Authorize(Roles = "Student")]
+        /*[Authorize(Roles = "Student")]
 		[HttpPost]
 		[ValidateAntiForgeryToken]
 		public ActionResult SubmitPost([Bind(Include = "Name, Status, File, UrlFile, PostDate, NameOfFile")] HttpPostedFileBase file, Post post, Assignment assignment, int id)
 		{
-			/*if (!ModelState.IsValid)
-			{
-				return View("~/Views/ErrorValidations/Exist.cshtml");
-			}*/
-
-			string extension = Path.GetExtension(file.FileName);
+			*//*string extension = Path.GetExtension(file.FileName);
 
 			if (!ValidateExtension(extension))
 			{
 				return View("~/Views/ErrorValidations/Exist.cshtml");
-			}
+			}*//*
 
 			
 			if (file != null && file.ContentLength > 0 )
 			{			
-				//
 				//Get Assignment Name
 				var objAssignment = (from ass in _context.Assignments where ass.Id == id select ass.Name).ToList();
 				var assignmentName = objAssignment[0];
@@ -167,35 +159,118 @@ namespace PostSys.Controllers
 				file.InputStream.Read(post.File, 0, file.ContentLength);
 				string fileName = prepend + System.IO.Path.GetFileName(file.FileName);
 				string urlImage = Server.MapPath("~/Files/" + fileName);
-
 				post.NameOfFile = fileName;
-				
 				file.SaveAs(urlImage);
-
 				post.UrlFile = "Files/" + fileName;
 			}			
 
 			var assignemntInDb = _context.Assignments.SingleOrDefault(i => i.Id == id);
 
-			var newPost = new Post
-			{				
-				NameOfFile = post.NameOfFile,
-				AssignmentId = assignemntInDb.Id,
-				Name = post.Name,
-				PostDate = DateTime.Now,
-				File = post.File,
-				UrlFile = post.UrlFile
-			};
-
-			if(newPost.NameOfFile == null || newPost.Name == null || newPost.File == null || newPost.UrlFile == null)
+			if(file == null)
 			{
-				return View("~/Views/ErrorValidations/Exist.cshtml");
+				return View("~/Views/ErrorValidations/Null.cshtml");
 			}
 
-			_context.Posts.Add(newPost);
-			_context.SaveChanges();
+			var validationExtension = System.IO.Path.GetExtension(file.FileName);
+			if(validationExtension == ".jpg" || validationExtension == ".jpeg" || validationExtension == ".png" || 
+			   validationExtension == ".doc" || validationExtension == ".docx" || validationExtension == ".pdf")
+			{
+				var newPost = new Post
+				{
+					NameOfFile = post.NameOfFile,
+					AssignmentId = assignemntInDb.Id,
+					Name = post.Name,
+					PostDate = DateTime.Now,
+					File = post.File,
+					UrlFile = post.UrlFile
+				};
 
-			return View("~/Views/Home/Index.cshtml");
-		}
-	}
+				_context.Posts.Add(newPost);
+				_context.SaveChanges();
+
+				return View("~/Views/Home/Index.cshtml");
+			}
+			else
+			{
+				return View("~/Views/ErrorValidations/Null.cshtml");
+			}
+		}*/
+
+
+        ////////////////////////////////////////////////////////
+        ///
+        [Authorize(Roles = "Student")]
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public ActionResult SubmitPost([Bind(Include = "Name, Status, File, UrlFile, PostDate, NameOfFile")] HttpPostedFileBase file, Post post, Assignment assignment, int id)
+        {
+            if (file == null)
+            {
+                return View("~/Views/ErrorValidations/Null.cshtml");
+            }
+
+            var validationExtension = System.IO.Path.GetExtension(file.FileName);
+            if (validationExtension == ".jpg" || validationExtension == ".jpeg" || validationExtension == ".png" || validationExtension == ".doc" || validationExtension == ".docx" || validationExtension == ".pdf")
+            {
+                if (file != null && file.ContentLength > 0)
+                {
+                    //Get Assignment Name
+                    var objAssignment = (from ass in _context.Assignments where ass.Id == id select ass.Name).ToList();
+                    var assignmentName = objAssignment[0];
+
+                    //Get Course Name
+                    var objCourse = (from ass in _context.Assignments
+                                     where ass.Id == id
+                                     join c in _context.Courses
+                                     on ass.CourseId equals c.Id
+                                     select c.Name).ToList();
+                    var courseName = objCourse[0];
+
+                    //
+                    var userName = User.Identity.GetUserName();
+                    string prepend = userName + "-" + assignmentName + "-";
+
+                    post.File = new byte[file.ContentLength]; // image stored in binary formate
+                    file.InputStream.Read(post.File, 0, file.ContentLength);
+                    string fileName = prepend + System.IO.Path.GetFileName(file.FileName);
+                    string urlImage = Server.MapPath("~/Files/" + fileName);
+                    post.NameOfFile = fileName;
+                    file.SaveAs(urlImage);
+                    post.UrlFile = "Files/" + fileName;
+                }
+
+                var assignemntInDb = _context.Assignments.SingleOrDefault(i => i.Id == id);
+
+                var newPost = new Post
+                {
+                    NameOfFile = post.NameOfFile,
+                    AssignmentId = assignemntInDb.Id,
+                    Name = post.Name,
+                    PostDate = DateTime.Now,
+                    File = post.File,
+                    UrlFile = post.UrlFile
+                };
+
+                if (newPost.Name == null || newPost.NameOfFile == null || newPost.PostDate == null)
+                {
+                    return View("~/Views/ErrorValidations/Null.cshtml");
+                }
+
+                var check = _context.Posts.Where(x => x.NameOfFile.Contains(newPost.NameOfFile)).FirstOrDefault();
+                if (check != null)
+                {
+                    return View("~/Views/ErrorValidations/Null.cshtml");
+                }
+
+                _context.Posts.Add(newPost);
+                _context.SaveChanges();
+
+                return View("~/Views/Home/Index.cshtml");
+            }
+            else
+            {
+                return View("~/Views/ErrorValidations/Null.cshtml");
+            }
+        }
+    }
 }

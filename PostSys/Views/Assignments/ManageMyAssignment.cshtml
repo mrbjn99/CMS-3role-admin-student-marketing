@@ -5,7 +5,7 @@
 
 @using Microsoft.AspNet.Identity
 
-@if (Request.IsAuthenticated && User.IsInRole("Student"))
+@if (Request.IsAuthenticated)
 {
     <!DOCTYPE html>
     <html lang="en">
@@ -31,7 +31,6 @@
         <link rel="stylesheet" href="~/FrontEnd/assets/plugins/animation/css/animate.min.css">
         <!-- vendor css -->
         <link rel="stylesheet" href="~/FrontEnd/assets/css/style.css">
-
     </head>
 
     <body>
@@ -63,29 +62,103 @@
                     </a>
                     <a class="mobile-menu" id="mobile-collapse" href="javascript:"><span></span></a>
                 </div>
-                <div class="navbar-content scroll-div">
-                    <ul class="nav pcoded-inner-navbar">
-                        <li>
-                            <a href="~/Home/Index" class="nav-link "><span class="pcoded-micon"><i class="feather icon-home"></i></span><span class="pcoded-mtext">Home Page</span></a>
-                        </li>
-                        <li class="nav-item pcoded-menu-caption">
-                            <label>Student's Functions</label>
-                        </li>
-                        <li>
-                            <a href="~/Classes/ListClasses" class="nav-link "><span class="pcoded-micon"><i class="feather icon-activity"></i></span><span class="pcoded-mtext">Assign to Course</span></a>
-                        </li>
-                        <li>
-                            <a href="~/Courses/ManageMyCourse" class="nav-link "><span class="pcoded-micon"><i class="feather icon-settings"></i></span><span class="pcoded-mtext">Manage My Course</span></a>
-                        </li>
-                        <li>
-                            <a href="~/Assignments/ManageMyAssignment" class="nav-link "><span class="pcoded-micon"><i class="feather icon-settings"></i></span><span class="pcoded-mtext">Manage My Assignment</span></a>
-                        </li>
-                        <li>
-                            <a href="~/Posts/ManageMyPost" class="nav-link "><span class="pcoded-micon"><i class="feather icon-settings"></i></span><span class="pcoded-mtext">Manage My Post</span></a>
-                        </li>
+                @if (Request.IsAuthenticated && User.IsInRole("Student"))
+                {
+                    <div class="navbar-content scroll-div">
+                        <ul class="nav pcoded-inner-navbar">
+                            <li>
+                                <a href="~/Home/Index" class="nav-link "><span class="pcoded-micon"><i class="feather icon-home"></i></span><span class="pcoded-mtext">Home Page</span></a>
+                            </li>
+                            <li class="nav-item pcoded-menu-caption">
+                                <label>Student's Functions</label>
+                            </li>
+                            <li>
+                                <a href="~/Classes/ListClasses" class="nav-link "><span class="pcoded-micon"><i class="feather icon-activity"></i></span><span class="pcoded-mtext">Assign to Course</span></a>
+                            </li>
+                            <li>
+                                <a href="~/Courses/ManageMyCourse" class="nav-link "><span class="pcoded-micon"><i class="feather icon-settings"></i></span><span class="pcoded-mtext">Manage My Course</span></a>
+                            </li>
+                            <li>
+                                <a href="~/Assignments/ManageMyAssignment" class="nav-link "><span class="pcoded-micon"><i class="feather icon-settings"></i></span><span class="pcoded-mtext">Manage My Assignment</span></a>
+                            </li>
+                            <li>
+                                <a href="~/Posts/ManageMyPost" class="nav-link "><span class="pcoded-micon"><i class="feather icon-settings"></i></span><span class="pcoded-mtext">Manage My Post</span></a>
+                            </li>
+                        </ul>
+                        <ul class="nav pcoded-inner-navbar">
+                            <li class="nav-item pcoded-menu-caption">
+                                <label>Login as: </label>
+                            </li>
+                            <li>
+                                <a href="~/Home/Index" class="nav-link"><span class="pcoded-micon"><i class="feather icon-user"></i></span><span class="pcoded-mtext">@Html.DisplayName("Hello " + User.Identity.GetUserName() + "!")</span></a>
+                            </li>
+                            @using (Html.BeginForm("LogOff", "Account", FormMethod.Post, new { id = "logoutForm", @class = "nav pcoded-inner-navbar" }))
+                            {
 
-                    </ul>
-                </div>
+                                <li>
+                                    @Html.AntiForgeryToken()
+                                    <a href="javascript:document.getElementById('logoutForm').submit()" class="nav-link"><span class="pcoded-micon"><i class="feather icon-log-out"></i></span><span class="pcoded-mtext"></span></a>
+                                </li>
+                            }
+                        </ul>
+                    </div>
+                }
+                @if (Request.IsAuthenticated && User.IsInRole("Marketing Coordinator"))
+                {
+                    <div class="navbar-content scroll-div">
+                        <ul class="nav pcoded-inner-navbar">
+                            <li>
+                                <a href="~/Home/Index" class="nav-link "><span class="pcoded-micon"><i class="feather icon-home"></i></span><span class="pcoded-mtext">Home Page</span></a>
+                            </li>
+                            <li class="nav-item pcoded-menu-caption">
+                                <label>Marketing Coordinator's Functions</label>
+                            </li>
+                            <li>
+                                <a href="~/Deadlines/CreateDeadline" class="nav-link "><span class="pcoded-micon"><i class="feather icon-arrow-right"></i></span><span class="pcoded-mtext">Create Deadlines</span></a>
+                            </li>
+                            <li>
+                                <a href="~/Deadlines/ManageMyDeadline" class="nav-link "><span class="pcoded-micon"><i class="feather icon-settings"></i></span><span class="pcoded-mtext">Manage My Deadlines</span></a>
+                            </li>
+                            <li>
+                                <a href="~/Courses/ManageMyCourse" class="nav-link "><span class="pcoded-micon"><i class="feather icon-settings"></i></span><span class="pcoded-mtext">Manage My Courses</span></a>
+                            </li>
+                            <li>
+                                <a href="~/Assignments/ManageMyAssignment" class="nav-link "><span class="pcoded-micon"><i class="feather icon-settings"></i></span><span class="pcoded-mtext">Manage My Assignments</span></a>
+                            </li>
+                            <li>
+                                <a href="~/Posts/ManageMyPost" class="nav-link "><span class="pcoded-micon"><i class="feather icon-settings"></i></span><span class="pcoded-mtext">Manage My Posts</span></a>
+                            </li>
+                            <li>
+                                <a href="~/Classes/ManageMyClass" class="nav-link "><span class="pcoded-micon"><i class="feather icon-settings"></i></span><span class="pcoded-mtext">Manage My Classes</span></a>
+                            </li>
+                            <li>
+                                <a href="~/Posts/ManageMyPublication" class="nav-link "><span class="pcoded-micon"><i class="feather icon-settings"></i></span><span class="pcoded-mtext">Manage My Publications</span></a>
+                            </li>
+                            <li>
+                                <a href="~/Posts/ManageMyComment" class="nav-link "><span class="pcoded-micon"><i class="feather icon-settings"></i></span><span class="pcoded-mtext">Manage My Comments</span></a>
+                            </li>
+                            <li>
+                                <a href="~/Posts/DownloadZip" class="nav-link "><span class="pcoded-micon"><i class="feather icon-download"></i></span><span class="pcoded-mtext">Download File (Zip)</span></a>
+                            </li>
+                        </ul>
+                        <ul class="nav pcoded-inner-navbar">
+                            <li class="nav-item pcoded-menu-caption">
+                                <label>Login as: </label>
+                            </li>
+                            <li>
+                                <a href="~/Home/Index" class="nav-link"><span class="pcoded-micon"><i class="feather icon-user"></i></span><span class="pcoded-mtext">@Html.DisplayName("Hello " + User.Identity.GetUserName() + "!")</span></a>
+                            </li>
+                            @using (Html.BeginForm("LogOff", "Account", FormMethod.Post, new { id = "logoutForm", @class = "nav pcoded-inner-navbar" }))
+                            {
+
+                                <li>
+                                    @Html.AntiForgeryToken()
+                                    <a href="javascript:document.getElementById('logoutForm').submit()" class="nav-link"><span class="pcoded-micon"><i class="feather icon-log-out"></i></span><span class="pcoded-mtext"></span></a>
+                                </li>
+                            }
+                        </ul>
+                    </div>
+                }
             </div>
         </nav>
         <!-- [ navigation menu ] end -->
@@ -106,36 +179,6 @@
             <div class="collapse navbar-collapse">
                 <ul class="navbar-nav mr-auto">
                     <li><a href="javascript:" class="full-screen" onclick="javascript:toggleFullScreen()"><i class="feather icon-maximize"></i></a></li>
-                </ul>
-                <ul class="navbar-nav ml-auto">
-                    <li>
-                        <div class="dropdown drp-user">
-                            <a href="javascript:" class="dropdown-toggle" data-toggle="dropdown">
-                                <i class="icon feather icon-settings"></i>
-                            </a>
-                            <div class="dropdown-menu dropdown-menu-right profile-notification">
-                                <div class="pro-head">
-                                    @using (Html.BeginForm("LogOff", "Account", FormMethod.Post, new { id = "logoutForm", @class = "navbar-right" }))
-                                    {
-                                        @Html.AntiForgeryToken()
-                                        <img src="~/FrontEnd/assets/images/user/avatar-2.jpg" class="img-radius" alt="User-Profile-Image">
-                                        <span>
-                                            @Html.ActionLink("Hello " + User.Identity.GetUserName() + "!", "DashBoard", "Home")
-                                        </span>
-                                        <a href="javascript:document.getElementById('logoutForm').submit()" class="dud-logout" title="Logout">
-                                            <i class="feather icon-log-out"></i>
-                                        </a>
-                                    }
-                                </div>
-                                <ul class="pro-body">
-                                    <li><a href="javascript:" class="dropdown-item"><i class="feather icon-settings"></i> Settings</a></li>
-                                    <li><a href="javascript:" class="dropdown-item"><i class="feather icon-user"></i> Profile</a></li>
-                                    <li><a href="message.html" class="dropdown-item"><i class="feather icon-mail"></i> My Messages</a></li>
-                                    <li><a href="auth-signin.html" class="dropdown-item"><i class="feather icon-lock"></i> Lock Screen</a></li>
-                                </ul>
-                            </div>
-                        </div>
-                    </li>
                 </ul>
             </div>
         </header>
@@ -233,7 +276,6 @@
         <script src="~/FrontEnd/assets/js/vendor-all.min.js"></script>
         <script src="~/FrontEnd/assets/plugins/bootstrap/js/bootstrap.min.js"></script>
         <script src="~/FrontEnd/assets/js/pcoded.min.js"></script>
-
     </body>
 </html>
 }
