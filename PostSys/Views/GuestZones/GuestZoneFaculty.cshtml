@@ -6,7 +6,8 @@
 
 @using Microsoft.AspNet.Identity
 
-
+@if (Request.IsAuthenticated)
+{
     <!DOCTYPE html>
     <html lang="en">
     <head>
@@ -73,7 +74,7 @@
                                 <label>Marketing Manager's Functions</label>
                             </li>
                             <li>
-                                <a href="~/Faculties/CreateFaculty" class="nav-link "><span class="pcoded-micon"><i class="feather icon-arrow-right"></i></span><span class="pcoded-mtext">Create Faculities</span></a>
+                                <a href="~/Faculties/CreateFaculty" class="nav-link "><span class="pcoded-micon"><i class="feather icon-arrow-right"></i></span><span class="pcoded-mtext">Create Faculties</span></a>
                             </li>
                             <li>
                                 <a href="~/Classes/CreateClass" class="nav-link "><span class="pcoded-micon"><i class="feather icon-arrow-right"></i></span><span class="pcoded-mtext">Create Classes</span></a>
@@ -88,7 +89,7 @@
                                 <a href="~/GuestZones/ListGuest" class="nav-link "><span class="pcoded-micon"><i class="feather icon-list"></i></span><span class="pcoded-mtext">List Guests</span></a>
                             </li>
                             <li>
-                                <a href="~/Faculties/ListFaculty" class="nav-link "><span class="pcoded-micon"><i class="feather icon-list"></i></span><span class="pcoded-mtext">List Faculities</span></a>
+                                <a href="~/Faculties/ListFaculty" class="nav-link "><span class="pcoded-micon"><i class="feather icon-list"></i></span><span class="pcoded-mtext">List Faculties</span></a>
                             </li>
                             <li>
                                 <a href="~/Classes/ListClasses" class="nav-link "><span class="pcoded-micon"><i class="feather icon-list"></i></span><span class="pcoded-mtext">List Classes</span></a>
@@ -125,7 +126,7 @@
                                 <label>Function's Guest</label>
                             </li>
                             <li>
-                                <a href="~/GuestZones/GuestZoneFaculty" class="nav-link "><span class="pcoded-micon"><i class="feather icon-user"></i></span><span class="pcoded-mtext">Guest's Faculities</span></a>
+                                <a href="~/GuestZones/GuestZoneFaculty" class="nav-link "><span class="pcoded-micon"><i class="feather icon-user"></i></span><span class="pcoded-mtext">Guest's Faculties</span></a>
                             </li>
 
                         </ul>
@@ -171,7 +172,7 @@
                                             </div>
                                             <ul class="breadcrumb">
                                                 <li class="breadcrumb-item"><a href="~/Home/Index"><i class="feather icon-home"></i></a></li>
-                                                <li class="breadcrumb-item"><a href="javascript:">Guest's Faculities</a></li>
+                                                <li class="breadcrumb-item"><a href="javascript:">Guest's Faculties</a></li>
                                             </ul>
                                         </div>
                                     </div>
@@ -183,7 +184,7 @@
                                 <div class="col-xl-12">
                                     <div class="card">
                                         <div class="card-header">
-                                            <h5> Guest's Faculities</h5>
+                                            <h5> Guest's Faculties</h5>
                                         </div>
                                         <div class="card-block table-border-style">
                                             @using (Html.BeginForm("GuestZoneFaculty", "GuestZones", FormMethod.Post))
@@ -238,3 +239,4 @@
     </body>
 </html>
 
+}

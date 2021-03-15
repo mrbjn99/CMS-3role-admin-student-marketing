@@ -141,12 +141,19 @@
 
 
                     <div class="input-group mb-4">
-                        @Html.DropDownList("UserRoles", (SelectList)ViewBag.Name, "Choose Roles",new { @class = "form-control" })
+                        @Html.DropDownList("UserRoles", (SelectList)ViewBag.Name, "Choose Roles", new { @class = "form-control" })
                     </div>
 
 
                     <button class="btn btn-primary shadow-2 mb-4">Create</button>
+                    <div>
+                        <i class="fas fa-arrow-left"></i>
+                        <a href="~/Admins/Index">
+                            Back to Index
+                        </a>
+                    </div>
                 </div>
+       
 
                 }
             </div>

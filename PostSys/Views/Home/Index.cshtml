@@ -126,7 +126,7 @@
                                 <!-- [ Main Content ] start -->
                                 <div class="page-header-title">
                                     <h2 class="m-b-10">
-                                        @Html.DisplayName("Welcome,  " + User.Identity.GetUserName() + "!")
+                                        @Html.DisplayName("Welcome back,  " + User.Identity.GetUserName() + "!")
                                     </h2>
                                 </div>
                                 <br />
@@ -277,7 +277,7 @@
                         <li>
                             <a href="~/Home/Index" class="nav-link"><span class="pcoded-micon"><i class="feather icon-user"></i></span><span class="pcoded-mtext">@Html.DisplayName("Hello " + User.Identity.GetUserName() + "!")</span></a>
                         </li>
-                        @using (Html.BeginForm("LogOff", "Account", FormMethod.Post, new { id = "logoutForm", @class = "nav pcoded-inner-navbar" }))
+                        @using (Html.BeginForm("LogOff", "Account", FormMethod.Post, new { id = "logoutForm", @class = "nav pcoded-inner-navbar", @placeholder = "Log out" }))
                         {
 
                             <li>
@@ -323,7 +323,7 @@
                                 <!-- [ Main Content ] start -->
                                 <div class="page-header-title">
                                     <h2 class="m-b-10">
-                                        @Html.DisplayName("Welcome,  " + User.Identity.GetUserName() + "!")
+                                        @Html.DisplayName("Welcome back,  " + User.Identity.GetUserName() + "!")
                                     </h2>
                                 </div>
                                 <br />
@@ -333,7 +333,7 @@
                                 <div class="row">
                                     <div class="col-md-6 col-lg-4">
                                         <div class="card">
-                                            <img src="https://media.wired.com/photos/5e754badca6a510009874664/master/pass/OpEd-Bill-Gates-1183210445.jpg" alt="Lamp" width="auto" height="auto">
+                                            <img src="https://cdn-news.warriortrading.com/wp-content/uploads/2018/08/19180558/Elon-Musk-1-e1534867281303.jpg" alt="Lamp" width="auto" height="auto">
                                             <div class="card-header">
                                                 <strong><h5>Elon Musk - Founder of PayPal and Tesla</h5></strong>
                                             </div>
@@ -454,7 +454,7 @@
                             <label>Marketing Manager's Functions</label>
                         </li>
                         <li>
-                            <a href="~/Faculties/CreateFaculty" class="nav-link "><span class="pcoded-micon"><i class="feather icon-arrow-right"></i></span><span class="pcoded-mtext">Create Faculities</span></a>
+                            <a href="~/Faculties/CreateFaculty" class="nav-link "><span class="pcoded-micon"><i class="feather icon-arrow-right"></i></span><span class="pcoded-mtext">Create Faculties</span></a>
                         </li>
                         <li>
                             <a href="~/Classes/CreateClass" class="nav-link "><span class="pcoded-micon"><i class="feather icon-arrow-right"></i></span><span class="pcoded-mtext">Create Classes</span></a>
@@ -469,7 +469,7 @@
                             <a href="~/GuestZones/ListGuest" class="nav-link "><span class="pcoded-micon"><i class="feather icon-list"></i></span><span class="pcoded-mtext">List Guests</span></a>
                         </li>
                         <li>
-                            <a href="~/Faculties/ListFaculty" class="nav-link "><span class="pcoded-micon"><i class="feather icon-list"></i></span><span class="pcoded-mtext">List Faculities</span></a>
+                            <a href="~/Faculties/ListFaculty" class="nav-link "><span class="pcoded-micon"><i class="feather icon-list"></i></span><span class="pcoded-mtext">List Faculties</span></a>
                         </li>
                         <li>
                             <a href="~/Classes/ListClasses" class="nav-link "><span class="pcoded-micon"><i class="feather icon-list"></i></span><span class="pcoded-mtext">List Classes</span></a>
@@ -546,7 +546,7 @@
                                 <!-- [ Main Content ] start -->
                                 <div class="page-header-title">
                                     <h2 class="m-b-10">
-                                        @Html.DisplayName("Welcome,  " + User.Identity.GetUserName() + "!")
+                                        @Html.DisplayName("Welcome back,  " + User.Identity.GetUserName() + "!")
                                     </h2>
                                 </div>
                                 <br />
@@ -733,7 +733,7 @@
                                 <!-- [ Main Content ] start -->
                                 <div class="page-header-title">
                                     <h2 class="m-b-10">
-                                        @Html.DisplayName("Welcome,  " + User.Identity.GetUserName() + "!")
+                                        @Html.DisplayName("Welcome back,  " + User.Identity.GetUserName() + "!")
                                     </h2>
                                 </div>
                                 <br />
@@ -909,6 +909,7 @@
                                 <a href="javascript:document.getElementById('logoutForm').submit()" class="nav-link"><span class="pcoded-micon"><i class="feather icon-log-out"></i></span><span class="pcoded-mtext"></span></a>
                             </li>
                         }
+
                     </ul>
                 </div>
             </div>
@@ -947,7 +948,7 @@
                                 <!-- [ Main Content ] start -->
                                 <div class="page-header-title">
                                     <h2 class="m-b-10">
-                                        @Html.DisplayName("Welcome,  " + User.Identity.GetUserName() + "!")
+                                        @Html.DisplayName("Welcome back,  " + User.Identity.GetUserName() + "!")
                                     </h2>
                                 </div>
                                 <br />
